@@ -14,9 +14,10 @@ export default function DashboardPage({
   const [searchQuery, setSearchQuery] = useState('');
 
   // Filters checklists by title based on search query
-  const filteredChecklists = checklists.filter(checklist =>
-    checklist.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredChecklists = checklists.filter(checklist => {
+    if (!checklist?.title) return false;
+    return checklist.title.toLowerCase().includes(searchQuery.toLowerCase());
+  });
 
   if (loading) {
     return (
