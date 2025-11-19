@@ -36,9 +36,14 @@ export const createChecklistAsync = createAsyncThunk(
   async (checklistData, { rejectWithValue }) => {
     try {
       const result = await api.createChecklist(checklistData);
+      // API only returns {id}, merge with sent data
       return {
-        ...result,
-        status: result.statut ?? result.status ?? 0
+        id: result.id,
+        title: checklistData.title,
+        description: checklistData.description,
+        todo: checklistData.todo || [],
+        status: 0,
+        statut: 0
       };
     } catch (error) {
       return rejectWithValue(error.message);
